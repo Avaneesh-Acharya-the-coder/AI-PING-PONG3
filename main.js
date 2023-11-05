@@ -1,4 +1,6 @@
-
+rwristx=""
+rwristy=""
+score=""
 /*created by prashant shukla */
 
 var paddle2 =10,paddle1=10;
@@ -35,15 +37,19 @@ function model_loaded() {
 }
 function got_poses(results) {
   if(results.length>0) {
-    //console.log(results)//
+    console.log(results)
     noseX=results[0].pose.nose.x
     noseY=results[0].pose.nose.y
+    rwristx=results[0].pose.rightWrist.x
+    rwristy=results[0].pose.rightWrist.y
+    score=results[0].pose.rightWrist.confidence
     console.log("noseX="+noseX+", Nose Y="+noseY)
 }}
 
 function draw(){
 
  background(0); 
+
 image(video,0,0,700,600)
  fill("black");
  stroke("black");
@@ -52,7 +58,12 @@ image(video,0,0,700,600)
  fill("black");
  stroke("black");
  rect(0,0,20,700);
- 
+ //if (score>0.2) 
+ {
+  fill("blue")
+  stroke("black")
+  circle(rwristx, rwristy, 50)
+ }
    //funtion paddleInCanvas call 
    paddleInCanvas();
  
