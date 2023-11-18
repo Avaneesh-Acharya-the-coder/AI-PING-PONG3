@@ -22,7 +22,7 @@ var ball = {
     dx:3,
     dy:3
 }
-
+game_status=""
 function setup(){
   var canvas =  createCanvas(700,600);
   canvas.parent("canvas")
@@ -45,9 +45,14 @@ function got_poses(results) {
     score=results[0].pose.rightWrist.confidence
     console.log("noseX="+noseX+", Nose Y="+noseY)
 }}
-
+function startGame(params) {
+  game_status = "start";
+  document.getElementById("status").innerHTML = "Game is loaded";
+}
 function draw(){
-
+  if (game_status=="start") {
+  
+  
  background(0); 
 
 image(video,0,0,700,600)
@@ -92,7 +97,7 @@ image(video,0,0,700,600)
    //function move call which in very important
     move();
 }
-
+}
 
 
 //function reset when ball does notcame in the contact of padde
