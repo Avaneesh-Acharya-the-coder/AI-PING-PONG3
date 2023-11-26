@@ -23,6 +23,10 @@ var ball = {
     dy:3
 }
 game_status=""
+function preload() {
+  btp=loadSound("ball_touch_paddel.wav")
+  missed=loadSound("missed.wav")
+}
 function setup(){
   var canvas =  createCanvas(700,600);
   canvas.parent("canvas")
@@ -42,10 +46,10 @@ function got_poses(results) {
     noseY=results[0].pose.nose.y
     rwristx=results[0].pose.rightWrist.x
     rwristy=results[0].pose.rightWrist.y
-    score=results[0].pose.rightWrist.confidence
+    score=results[0].pose.keypoints[10].score
     console.log("noseX="+noseX+", Nose Y="+noseY)
 }}
-function startGame(params) {
+function startGame() {
   game_status = "start";
   document.getElementById("status").innerHTML = "Game is loaded";
 }
@@ -76,7 +80,7 @@ image(video,0,0,700,600)
    fill(250,0,0);
     stroke(0,0,250);
     strokeWeight(0.5);
-   paddle1Y = mouseY; 
+   paddle1Y = rwristy; 
    rect(paddle1X,paddle1Y,paddle1,paddle1Height,100);
    
    
@@ -149,9 +153,11 @@ function move(){
   if (ball.y >= paddle1Y&& ball.y <= paddle1Y + paddle1Height) {
     ball.dx = -ball.dx+0.5;
     playerscore++;
+    btp.play()
   }
   else{
     pcscore++;
+    missed.play()
     reset();
     navigator.vibrate(100);
   }
